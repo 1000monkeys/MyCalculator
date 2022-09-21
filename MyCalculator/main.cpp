@@ -7,8 +7,8 @@ int main(int argc, char *argv[])
 
     int new_argc = argc + 3;
     char** new_argv = new char* [new_argc];
-    for (int ii = 0; ii < argc; ++ii) {
-        new_argv[ii] = argv[ii];
+    for (int i = 0; i < argc; ++i) {
+        new_argv[i] = argv[i];
     }
 
     new_argv[argc] = new char[strlen("Appname") + 1];

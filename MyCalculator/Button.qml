@@ -3,7 +3,7 @@
 Rectangle {
     id: button
     signal clicked
-    border.color: black
+    border.color: "black"
     width: 50
     height: 50
     color: "gray"
