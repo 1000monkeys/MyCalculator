@@ -42,22 +42,27 @@ QString Logic::inputString()
 
 void Logic::memoryPlus() noexcept
 {
-
+	list.push_back("+");
+	list.push_back(m_input);
+	clear();
 }
 
 void Logic::memoryMinus() noexcept
 {
-
+	list.push_back("-");
+	list.push_back(m_input);
+	clear();
 }
 
 void Logic::memoryClear() noexcept
 {
-
+	list.clear();
 }
 
 void Logic::clear() noexcept
 {
-
+	m_input = "0";
+	emit inputChanged();
 }
 
 void Logic::removeLast() noexcept
@@ -73,7 +78,16 @@ void Logic::removeLast() noexcept
 
 void Logic::calculate() noexcept
 {
+	qDebug() << m_input;
+	qDebug() << listToString();
+}
 
+QString Logic::listToString() noexcept {
+	QString string = "";
+	for (const auto &item : list) {
+		string += " | " + item;
+	}
+	return string;
 }
 
 void Logic::setInput(const QString &input) noexcept

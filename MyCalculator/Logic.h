@@ -25,6 +25,7 @@ public:
     Q_INVOKABLE void calculate() noexcept;
 
     bool inArray(const QString& value, const std::vector<QString>& array) noexcept;
+    QString listToString() noexcept;
 signals:
     void inputChanged();
 
@@ -36,6 +37,7 @@ private:
     std::vector<QString> operators;
     
     QString inputMemory;
+    std::list<QString> list;
 };
 
 #endif
