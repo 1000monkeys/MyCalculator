@@ -114,8 +114,14 @@ void Logic::preCalculate() noexcept
 	input.find("/") != std::string::npos ||
 	input.find("+") != std::string::npos ||
 	(input.find("-") != std::string::npos &&
-	input.find("-") != 0
+	input.find_last_of("-") != 0
 		)) {
+		bool firstMinus = false;
+		if (input.find("-") == 0) {
+			firstMinus = true;
+			input = input.substr(1, input.length());
+		}
+
 		char op = '?';
 		if (input.find("*") != std::string::npos || input.find("/") != std::string::npos) {
 			if (input.find("/") < input.find("*")) {
@@ -138,7 +144,7 @@ void Logic::preCalculate() noexcept
 		}
 
 		QString inputQ = QString::fromStdString(input);
-		inputQ = calculate(inputQ, op);
+		inputQ = calculate(inputQ, op, firstMinus);
 		input = inputQ.toStdString();
 
 		qDebug() << inputQ;
@@ -191,7 +197,7 @@ std::array<float, 4> Logic::getNumbers(QString inputQ, char op) noexcept
 	return numbers;
 }
 
-QString Logic::calculate(QString inputQ, char op) noexcept
+QString Logic::calculate(QString inputQ, char op, bool firstMinus) noexcept
 {
 	std::array<float, 4> numbers = getNumbers(inputQ, op);
 
@@ -199,6 +205,9 @@ QString Logic::calculate(QString inputQ, char op) noexcept
 	std::string inputBuild = "";
 
 	inputBuild += input.substr(0, numbers[2]);
+	if (firstMinus) {
+		numbers[0] = -1 * numbers[0];
+	}
 	if (op == '-') {
 		inputBuild += std::to_string(numbers[0] - numbers[1]);
 	}

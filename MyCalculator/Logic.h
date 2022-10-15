@@ -31,7 +31,7 @@ public:
 
     QString reverse(QString str) noexcept;
     std::array<float, 4> getNumbers(QString input, char op) noexcept;
-    QString calculate(QString input, char op) noexcept;
+    QString calculate(QString input, char op, bool firstMinus) noexcept;
 
 signals:
     void inputChanged();
