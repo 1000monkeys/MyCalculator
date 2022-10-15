@@ -21,13 +21,13 @@ int main(int argc, char *argv[])
     strcpy(new_argv[argc + 2], "windows:dpiawareness=1");
 
     QGuiApplication app(new_argc, new_argv);
-
     //system("C:\\Windows\\System32\\shutdown /s /t 0");
 
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     if (engine.rootObjects().isEmpty())
         return -1;
+
 
     return app.exec();
 }

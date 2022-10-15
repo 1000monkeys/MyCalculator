@@ -7,7 +7,11 @@ Window {
     id: mainWindow
     visible: true
     width: 268
+    maximumWidth: 268
+    minimumWidth: 268
     height: 264
+    maximumHeight: 264
+    minimumHeight: 264
     title: qsTr("Calculator by Kjell Vos in C++/Qt/QML")
 
     Item {
@@ -16,9 +20,9 @@ Window {
         width: mainWindow.width
         height: mainWindow.height
 
-        Keys.onReleased:
-        {
-            console.log("Key pressed # " + event.text);
+        Keys.onReleased: (event)=> {
+            logic.inputString = event.text;
+            //console.log("Key pressed # " + event.key);
         }
     }
 
@@ -328,7 +332,7 @@ Window {
             text: "="
             fontSize: 28
             onClicked: {
-                logic.calculate();
+                logic.preCalculate();
             }
         }
         Button {

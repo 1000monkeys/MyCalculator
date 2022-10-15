@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <qjsvalue.h>
+#include <QKeyEvent>
 
 class Logic : public QObject
 {
@@ -15,20 +16,25 @@ public:
 
     QString inputString();
     Q_INVOKABLE void setInput(const QString &input) noexcept;
-    
+    Q_INVOKABLE void pressedKey(QKeyEvent* event) noexcept;
+
     Q_INVOKABLE void memoryPlus() noexcept;
     Q_INVOKABLE void memoryMinus() noexcept;
     Q_INVOKABLE void memoryClear() noexcept;
 
     Q_INVOKABLE void clear() noexcept;
     Q_INVOKABLE void removeLast() noexcept;
-    Q_INVOKABLE void calculate() noexcept;
+    Q_INVOKABLE void preCalculate() noexcept;
 
     bool inArray(const QString& value, const std::vector<QString>& array) noexcept;
     QString listToString() noexcept;
+
+    QString reverse(QString str) noexcept;
+    std::array<float, 4> getNumbers(QString input, char op) noexcept;
+    QString calculate(QString input, char op) noexcept;
+
 signals:
     void inputChanged();
-
 
 private:
     QString m_input;
