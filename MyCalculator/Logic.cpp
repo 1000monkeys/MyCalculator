@@ -94,58 +94,30 @@ void Logic::preCalculate() noexcept
 	std::string input = m_input.toStdString();
 	QString result = "";
 	while (
-		input.find("*") != std::string::npos ||
-		input.find("/") != std::string::npos ||
-		input.find("+") != std::string::npos ||
-		input.find("-") != std::string::npos
-	) {
-		if (input.find("*") != std::string::npos || input.find("/") != std::string::npos) {
-			// * AND /
-			if (input.find("/") < input.find("*")) {
-				qDebug() << "eerst / dan *";
-
-				QString inputQ = QString::fromStdString(input);
-				inputQ = calculate(inputQ, '/');
-				input = inputQ.toStdString();
-
-				qDebug() << inputQ;
-				result = inputQ;
-
-			}
-			else if (input.find("/") > input.find("*")) {
-				qDebug() << "eerst * dan /";
-
-				QString inputQ = QString::fromStdString(input);
-				inputQ = calculate(inputQ, '*');
-				input = inputQ.toStdString();
-
-				qDebug() << inputQ;
-				result = inputQ;
-			}
+	input.find("*") != std::string::npos ||
+	input.find("/") != std::string::npos ||
+	input.find("+") != std::string::npos ||
+	input.find("-") != std::string::npos) {
+		char op = '?';
+		if (input.find("*") != std::string::npos) {
+			op = '*';
 		}
-		else if (input.find("+") != std::string::npos || input.find("-") != std::string::npos) {
-			// + AND -
-			if (input.find("+") < input.find("-")) {
-				qDebug() << "eerst + dan -";
-
-				QString inputQ = QString::fromStdString(input);
-				inputQ = calculate(inputQ, '+');
-				input = inputQ.toStdString();
-
-				qDebug() << inputQ;
-				result = inputQ;
-			}
-			else if (input.find("-") < input.find("+")) {
-				qDebug() << "eerst - dan +";
-
-				QString inputQ = QString::fromStdString(input);
-				inputQ = calculate(inputQ, '-');
-				input = inputQ.toStdString();
-
-				qDebug() << inputQ;
-				result = inputQ;
-			}
+		else if (input.find("/") != std::string::npos) {
+			op = '/';
 		}
+		else if (input.find("+") != std::string::npos) {
+			op = '+';
+		}
+		else if (input.find("-") != std::string::npos) {
+			op = '-';
+		}
+
+		QString inputQ = QString::fromStdString(input);
+		inputQ = calculate(inputQ, op);
+		input = inputQ.toStdString();
+
+		qDebug() << inputQ;
+		result = inputQ;
 	}
 
 	m_input = result;
