@@ -45,6 +45,14 @@ void Logic::memoryPlus() noexcept
 	list.push_back("+");
 	list.push_back(m_input);
 	clear();
+	m_input = "";
+	for (const auto& item : list) {
+		m_input += item;
+	}
+	if (list.size() > 2) {
+		preCalculate();
+	}
+	memoryPressed = true;
 }
 
 void Logic::memoryMinus() noexcept
@@ -52,6 +60,14 @@ void Logic::memoryMinus() noexcept
 	list.push_back("-");
 	list.push_back(m_input);
 	clear();
+	m_input = "";
+	for (const auto& item : list) {
+		m_input += item;
+	}
+	if (list.size() > 2) {
+		preCalculate();
+	}
+	memoryPressed = true;
 }
 
 void Logic::memoryClear() noexcept
@@ -97,7 +113,9 @@ void Logic::preCalculate() noexcept
 	input.find("*") != std::string::npos ||
 	input.find("/") != std::string::npos ||
 	input.find("+") != std::string::npos ||
-	input.find("-") != std::string::npos) {
+	(input.find("-") != std::string::npos &&
+	input.find("-") != 0
+		)) {
 		char op = '?';
 		if (input.find("*") != std::string::npos || input.find("/") != std::string::npos) {
 			if (input.find("/") < input.find("*")) {
@@ -127,6 +145,9 @@ void Logic::preCalculate() noexcept
 		result = inputQ;
 	}
 
+	if (result.size() == 0) {
+		result = "0";
+	}
 	m_input = result;
 	emit inputChanged();
 }
@@ -148,7 +169,7 @@ std::array<float, 4> Logic::getNumbers(QString inputQ, char op) noexcept
 	if (startPos < 0) {
 		startPos = 0;
 	}
-	qDebug() << QString::fromStdString("Startpos: " + startPos);
+	qDebug() << QString::fromStdString("Startpos: ") + QString::fromStdString(std::to_string(startPos));
 
 	for (int i = startPos; i < input.find(op); i++) {
 		first_number += input[i];
@@ -215,6 +236,10 @@ QString Logic::listToString() noexcept {
 
 void Logic::setInput(const QString &input) noexcept
 {
+	if (memoryPressed) {
+		memoryPressed = false;
+		m_input = "0";
+	}
 	if (inArray(input, numbers)) {
 		if (m_input == "0") {
 			m_input = input;

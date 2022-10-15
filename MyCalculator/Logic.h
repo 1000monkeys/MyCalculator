@@ -37,6 +37,9 @@ signals:
     void inputChanged();
 
 private:
+    bool DEBUG = false;
+    bool memoryPressed = false;
+
     QString m_input;
 
     std::vector<QString> numbers;
@@ -44,6 +47,7 @@ private:
     
     QString inputMemory;
     std::list<QString> list;
+
 };
 
 #endif
