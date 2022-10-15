@@ -99,17 +99,24 @@ void Logic::preCalculate() noexcept
 	input.find("+") != std::string::npos ||
 	input.find("-") != std::string::npos) {
 		char op = '?';
-		if (input.find("*") != std::string::npos) {
-			op = '*';
+		if (input.find("*") != std::string::npos || input.find("/") != std::string::npos) {
+			if (input.find("/") < input.find("*")) {
+				qDebug() << "eerst / dan *";
+				op = '/';
+			}
+			else {
+				qDebug() << "eerst * dan /";
+				op = '*';
+			}
 		}
-		else if (input.find("/") != std::string::npos) {
-			op = '/';
-		}
-		else if (input.find("+") != std::string::npos) {
-			op = '+';
-		}
-		else if (input.find("-") != std::string::npos) {
-			op = '-';
+		else if (input.find("+") != std::string::npos|| input.find("-") != std::string::npos) {
+			if (input.find("+") < input.find("-")) {
+				qDebug() << "eerst + dan -";
+				op = '+';
+			}
+			else {
+				op = '-';
+			}
 		}
 
 		QString inputQ = QString::fromStdString(input);
@@ -186,7 +193,6 @@ QString Logic::calculate(QString inputQ, char op) noexcept
 	inputBuild += input.substr(numbers[2] + numbers[3], input.length());
 
 	QString result = QString::fromStdString(inputBuild);
-
 	return result;
 }
 
